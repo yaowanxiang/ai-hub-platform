@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Hub - 通用人工智能平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .header .stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-item .label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        
+        /* Input Section */
+        .input-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .input-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .tab:hover {
+            background: #e0e0e0;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .input-area {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        .input-area:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .input-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .action-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .action-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .action-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .action-btn.secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .action-btn.secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        /* Output Section */
+        .output-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .output-area {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 200px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+        }
+        
+        .output-placeholder {
+            text-align: center;
+            color: #999;
+            padding: 60px 20px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .module-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .module-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .module-item .name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .module-item .description {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .status-indicator.online {
+            background: #4caf50;
+        }
+        
+        .status-indicator.offline {
+            background: #f44336;
+        }
+        
+        .status-indicator.warning {
+            background: #ff9800;
+        }
+        
+        /* Footer */
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .footer p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header .stats {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+        }
+        
+        .loading::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f0f0f0;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header fade-in">
+            <h1>🌟 AI Hub</h1>
+            <p>让AI能力像水电一样触手可及</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="number">5</div>
+                    <div class="label">核心模块</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">L1-L5</div>
+                    <div class="label">智能层次</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">7种</div>
+                    <div class="label">输入模态</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">4层</div>
+                    <div class="label">安全防护</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Input Section -->
+            <div class="input-section fade-in">
+                <h2 class="section-title">输入</h2>
+                
+                <div class="input-tabs">
+                    <button class="tab active" onclick="switchTab('text')">📝 文本</button>
+                    <button class="tab" onclick="switchTab('voice')">🎤 语音</button>
+                    <button class="tab" onclick="switchTab('sign')">🤟 手语</button>
+                    <button class="tab" onclick="switchTab('image')">🖼️ 图像</button>
+                </div>
+                
+                <textarea 
+                    id="input-text" 
+                    class="input-area" 
+                    placeholder="请输入你的问题，支持自然语言...&#10;&#10;例如：&#10;• 写一段Python代码来读取文件&#10;• 翻译成英文&#10;• 画一张AI技术架构图"
+                ></textarea>
+                
+                <div class="input-actions">
+                    <button class="action-btn primary" onclick="processInput()">
+                        ✨ 智能处理
+                    </button>
+                    <button class="action-btn secondary" onclick="clearInput()">
+                        🗑️ 清空
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Output Section -->
+            <div class="output-section fade-in">
+                <h2 class="section-title">输出</h2>
+                
+                <div id="output-area" class="output-area">
+                    <div class="output-placeholder">
+                        AI处理结果将显示在这里...
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="sidebar fade-in">
+            <div class="section">
+                <h2 class="section-title">系统状态</h2>
+                <div style="margin-top: 15px;">
+                    <div style="margin-bottom: 10px;">
+                        <span class="status-indicator online"></span>
+                        AI Hub: 在线
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <span class="status-indicator online"></span>
+                        多模态服务: 在线
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <span class="status-indicator warning"></span>
+                        自学习系统: 学习中
+                    </div>
+                    <div>
+                        <span class="status-indicator online"></span>
+                        安全审计: 正常
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">热门模块</h2>
+                <div id="modules-list" style="margin-top: 15px;">
+                    <div class="module-item">
+                        <div class="name">🤖 GPT-4 编程助手</div>
+                        <div class="description">Python代码生成和调试</div>
+                    </div>
+                    <div class="module-item">
+                        <div class="name">🌐 多语言翻译</div>
+                        <div class="description">支持50+语言互译</div>
+                    </div>
+                    <div class="module-item">
+                        <div class="name">🎨 DALL-E 3 图像生成</div>
+                        <div class="description">AI绘画和设计</div>
+                    </div>
+                    <div class="module-item">
+                        <div class="name">🔍 Whisper 语音识别</div>
+                        <div class="description">高精度语音转文字</div>
+                    </div>
+                    <div class="module-item">
+                        <div class="name">🤟 中国手语翻译</div>
+                        <div class="description">实时手语理解</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">最近活动</h2>
+                <div style="margin-top: 15px;">
+                    <div class="module-item">
+                        <div class="name">10分钟前</div>
+                        <div class="description">处理了"写Python代码"请求</div>
+                    </div>
+                    <div class="module-item">
+                        <div class="name">25分钟前</div>
+                        <div class="description">用户上传了手语视频</div>
+                    </div>
+                    <div class="module-item">
+                        <div class="name">1小时前</div>
+                        <div class="description">自学习系统优化了模块推荐</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer fade-in">
+            <p>Made with ❤️ by <a href="https://github.com/yaowanxiang">yaowanxiang</a></p>
+            <p>
+                <a href="https://github.com/yaowanxiang/ai-hub-platform">GitHub</a> •
+                <a href="https://github.com/yaowanxiang/ai-hub-platform/blob/master/README.md">文档</a> •
+                <a href="https://github.com/yaowanxiang/ai-hub-platform/issues">反馈</a>
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Tab切换
+        function switchTab(tab) {
+            // 更新tab样式
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 更新placeholder
+            const inputArea = document.getElementById('input-text');
+            const placeholders = {
+                'text': '请输入你的问题，支持自然语言...',
+                'voice': '语音识别中...请说话...',
+                'sign': '手语识别中...请打手语...',
+                'image': '图像上传中...或输入图像URL...'
+            };
+            inputArea.placeholder = placeholders[tab];
+            
+            // 清空当前输入
+            inputArea.value = '';
+        }
+        
+        // 处理输入
+        async function processInput() {
+            const input = document.getElementById('input-text').value;
+            const outputArea = document.getElementById('output-area');
+            
+            if (!input.trim()) {
+                outputArea.innerHTML = '<div class="output-placeholder">请输入内容...</div>';
+                return;
+            }
+            
+            // 显示loading
+            outputArea.innerHTML = '<div class="loading">AI正在思考...</div>';
+            
+            // 模拟处理（实际会调用后端API）
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // 生成结果
+            const result = generateResult(input);
+            
+            // 显示结果
+            outputArea.innerHTML = result;
+        }
+        
+        // 生成结果
+        function generateResult(input) {
+            // 简化版：基于输入生成结果
+            if (input.includes('代码') || input.includes('python')) {
+                return `<div style="color: #333;">
+<strong>🐍 Python代码生成：</strong>
+<pre style="background: #f4f4f4; padding: 15px; border-radius: 10px; overflow-x: auto; margin-top: 10px;">
+def read_file(filepath):
+    \"\"\"读取文件内容\"\"\"
+    with open(filepath, 'r', encoding='utf-8') as f:
+        return f.read()
+
+# 使用示例
+content = read_file('data.txt')
+print(content)
+</pre>
+<strong>✨ 建议：</strong>
+• 使用 <code>with</code> 语句自动关闭文件
+• 添加文件不存在异常处理
+• 支持多种编码格式
+</div>`;
+            } else if (input.includes('翻译')) {
+                return `<div style="color: #333;">
+<strong>🌐 多语言翻译：</strong>
+<div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin-top: 10px;">
+原文：${input.replace('翻译', '').trim()}
+<br><br>
+翻译：Translation of ${input.replace('翻译', '').trim()}
+</div>
+<strong>✨ 特性：</strong>
+• 支持50+语言
+• 保持上下文连贯
+• 专业术语准确
+</div>`;
+            } else {
+                return `<div style="color: #333;">
+<strong>🤖 AI回复：</strong>
+<div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin-top: 10px;">
+${input}
+</div>
+<strong>✨ 下一步建议：</strong>
+• 需要更详细的说明吗？
+• 想要代码实现吗？
+• 有其他相关问题吗？
+</div>`;
+            }
+        }
+        
+        // 清空输入
+        function clearInput() {
+            document.getElementById('input-text').value = '';
+            document.getElementById('output-area').innerHTML = '<div class="output-placeholder">AI处理结果将显示在这里...</div>';
+        }
+        
+        // 页面加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
