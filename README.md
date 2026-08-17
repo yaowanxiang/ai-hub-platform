@@ -1,6 +1,15 @@
 # AI Hub - 通用人工智能平台
 
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Status](https://img.shields.io/badge/Status-Alpha-yellow.svg)
+![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen.svg)
+
 > 🌟 **让AI能力像水电一样触手可及**
+
+[English](README_EN.md) | [项目总览](PROJECT_OVERVIEW.md) | [版本架构](VERSION分层架构.md) | [贡献指南](CONTRIBUTING.md)
+
+---
 
 ## 项目愿景
 
