@@ -1,0 +1,53 @@
+# AI Hub 核心依赖
+# 核心运行时
+anthropic>=0.18.0
+openai>=1.3.0
+requests>=2.31.0
+pandas>=2.0.0
+
+# 多模态处理
+whisper>=20231117
+pydub>=0.25.1
+Pillow>=10.0.0
+opencv-python>=4.8.0
+mediapipe>=0.10.0
+
+# 语音处理
+soundfile>=0.12.1
+pyaudio>=0.2.13
+
+# 手语识别（可选，需单独安装）
+# torch>=2.0.0
+# transformers>=4.30.0
+
+# 安全审计
+bandit>=1.7.5
+safety>=2.3.5
+pylint>=2.17.0
+
+# 沙箱隔离
+docker>=6.1.0  # 容器隔离
+# firecracker>=0.25.0  # 虚拟机隔离
+
+# 性能监控
+psutil>=5.9.0
+memory-profiler>=0.61.0
+
+# 配置管理
+pyyaml>=6.0.0
+python-dotenv>=1.0.0
+
+# 日志
+loguru>=0.7.0
+
+# 类型检查
+mypy>=1.4.0
+
+# 测试
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# 开发工具
+black>=23.7.0
+isort>=5.12.0
+flake8>=6.0.0
